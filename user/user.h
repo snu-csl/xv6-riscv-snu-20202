@@ -23,6 +23,11 @@ int getpid(void);
 char* sbrk(int);
 int sleep(int);
 int uptime(void);
+#ifdef SNU
+// PA2
+int setpgid(int, int);
+int getpgid(int);
+#endif
 
 // ulib.c
 int stat(const char*, struct stat*);

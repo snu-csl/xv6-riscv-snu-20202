@@ -36,3 +36,6 @@ entry("getpid");
 entry("sbrk");
 entry("sleep");
 entry("uptime");
+# PA2
+entry("setpgid");
+entry("getpgid");
