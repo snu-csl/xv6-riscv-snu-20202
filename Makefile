@@ -1,6 +1,6 @@
 # SNU ----------------------------------------------------
 # Please specify the PA number and your student ID:
-PANUM =
+PANUM = PA2
 STUDENTID =
 
 ifndef PANUM
@@ -144,6 +144,8 @@ UPROGS=\
 	$U/_usertests\
 	$U/_wc\
 	$U/_zombie\
+	$U/_setpgid\
+	$U/_getpgid\
 
 fs.img: mkfs/mkfs README $(UPROGS)
 	mkfs/mkfs fs.img README $(UPROGS)

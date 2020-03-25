@@ -20,3 +20,8 @@
 #define SYS_link   19
 #define SYS_mkdir  20
 #define SYS_close  21
+#ifdef SNU
+// PA2
+#define SYS_setpgid 22
+#define SYS_getpgid 23
+#endif
