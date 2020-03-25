@@ -84,6 +84,19 @@ stat(const char *n, struct stat *st)
   return r;
 }
 
+#ifdef SNU
+// Make atoi() recognize negative integers
+int
+atoi(const char *s)
+{
+	int n = 0;
+	int sign = (*s == '-')? s++, -1 : 1;
+
+	while ('0' <= *s && *s <= '9')
+		n = n*10 + *s++ - '0';
+	return sign * n;
+}
+#else
 int
 atoi(const char *s)
 {
@@ -94,6 +107,7 @@ atoi(const char *s)
     n = n*10 + *s++ - '0';
   return n;
 }
+#endif
 
 void*
 memmove(void *vdst, const void *vsrc, int n)
