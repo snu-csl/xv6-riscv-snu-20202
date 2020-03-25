@@ -1,3 +1,18 @@
+# SNU ----------------------------------------------------
+# Please specify the PA number and your student ID:
+PANUM =
+STUDENTID =
+
+ifndef PANUM
+$(error Please set PANUM in Makefile)
+endif
+ifndef STUDENTID
+$(error Please set STUDENTID in Makefile)
+endif
+_PANUM = $(strip $(PANUM))
+_STUDENTID = $(strip $(STUDENTID))
+#---------------------------------------------------------
+
 K=kernel
 U=user
 
@@ -54,7 +69,7 @@ LD = $(TOOLPREFIX)ld
 OBJCOPY = $(TOOLPREFIX)objcopy
 OBJDUMP = $(TOOLPREFIX)objdump
 
-CFLAGS = -Wall -Werror -O -fno-omit-frame-pointer -ggdb
+CFLAGS = -Wall -Werror -O -fno-omit-frame-pointer -ggdb -DSNU
 CFLAGS += -MD
 CFLAGS += -mcmodel=medany
 CFLAGS += -ffreestanding -fno-common -nostdlib -mno-relax
@@ -167,46 +182,15 @@ qemu-gdb: $K/kernel .gdbinit fs.img
 	@echo "*** Now run 'gdb' in another window." 1>&2
 	$(QEMU) $(QEMUOPTS) -S $(QEMUGDB)
 
-# CUT HERE
-# prepare dist for students
-# after running make dist, probably want to
-# rename it to rev0 or rev1 or so on and then
-# check in that version.
+# SNU ----------------------------------------------------
+TARBALL = ../xv6-$(_PANUM)-$(_STUDENTID).tar.gz
+FILES = ./Makefile ./$K ./$U ./mkfs
 
-EXTRA=\
-	mkfs.c ulib.c user.h cat.c echo.c forktest.c grep.c kill.c\
-	ln.c ls.c mkdir.c rm.c stressfs.c usertests.c wc.c zombie.c\
-	printf.c umalloc.c\
-	README dot-bochsrc *.pl \
-	.gdbinit.tmpl gdbutil\
-
-dist:
-	rm -rf dist
-	mkdir dist
-	for i in $(FILES); \
-	do \
-		grep -v PAGEBREAK $$i >dist/$$i; \
-	done
-	sed '/CUT HERE/,$$d' Makefile >dist/Makefile
-	echo >dist/runoff.spec
-	cp $(EXTRA) dist
-
-dist-test:
-	rm -rf dist
-	make dist
-	rm -rf dist-test
-	mkdir dist-test
-	cp dist/* dist-test
-	cd dist-test; $(MAKE) print
-	cd dist-test; $(MAKE) bochs || true
-	cd dist-test; $(MAKE) qemu
-
-# update this rule (change rev#) when it is time to
-# make a new revision.
-tar:
-	rm -rf /tmp/xv6
-	mkdir -p /tmp/xv6
-	cp dist/* dist/.gdbinit.tmpl /tmp/xv6
-	(cd /tmp; tar cf - xv6) | gzip >xv6-rev10.tar.gz  # the next one will be 10 (9/17)
+submit:
+	@make clean
+	@rm -f $(TARBALL)
+	@tar cvzf $(TARBALL) $(FILES)
+	@echo "Please submit $(TARBALL) file"
+#---------------------------------------------------------
 
 .PHONY: dist-test dist
