@@ -1,6 +1,6 @@
 # SNU ----------------------------------------------------
 # Please specify the PA number and your student ID:
-PANUM =
+PANUM = PA4
 STUDENTID =
 
 ifndef PANUM
@@ -144,6 +144,8 @@ UPROGS=\
 	$U/_usertests\
 	$U/_wc\
 	$U/_zombie\
+	$U/_schedtest1\
+	$U/_schedtest2\
 
 fs.img: mkfs/mkfs README $(UPROGS)
 	mkfs/mkfs fs.img README $(UPROGS)
@@ -156,7 +158,8 @@ clean:
 	$U/initcode $U/initcode.out $K/kernel fs.img \
 	mkfs/mkfs .gdbinit \
         $U/usys.S \
-	$(UPROGS)
+	$(UPROGS) \
+  xv6.log graph.png \
 
 # try to generate a unique GDB port
 GDBPORT = $(shell expr `id -u` % 5000 + 25000)
@@ -165,7 +168,8 @@ QEMUGDB = $(shell if $(QEMU) -help | grep -q '^-gdb'; \
 	then echo "-gdb tcp::$(GDBPORT)"; \
 	else echo "-s -p $(GDBPORT)"; fi)
 ifndef CPUS
-CPUS := 3
+# SNU: For PA4
+CPUS := 1
 endif
 
 QEMUEXTRA = -drive file=fs1.img,if=none,format=raw,id=x1 -device virtio-blk-device,drive=x1,bus=virtio-mmio-bus.1
@@ -182,7 +186,15 @@ qemu-gdb: $K/kernel .gdbinit fs.img
 	@echo "*** Now run 'gdb' in another window." 1>&2
 	$(QEMU) $(QEMUOPTS) -S $(QEMUGDB)
 
+# SNU: For PA4 
+png: xv6.log
+	./graph.py xv6.log graph.png
+
 # SNU ----------------------------------------------------
+qemu-log: $K/kernel fs.img
+	$(QEMU) $(QEMUOPTS) | tee xv6.log
+	@echo "*** The output of xv6 is logged in the 'xv6.log' file." 1>&2
+
 TARBALL = ../xv6-$(_PANUM)-$(_STUDENTID).tar.gz
 FILES = ./Makefile ./$K ./$U ./mkfs
 

@@ -94,6 +94,13 @@ struct proc {
   int xstate;                  // Exit status to be returned to parent's wait
   int pid;                     // Process ID
 
+#ifdef SNU
+  // The following three fields are added for PA4
+  int nice;                    // Nice value (-20 <= nice <= 19)
+  int counter;                 // Time slice
+  int ticks;                   // Total number of ticks used
+#endif
+
   // these are private to the process, so p->lock need not be held.
   uint64 kstack;               // Bottom of kernel stack for this process
   uint64 sz;                   // Size of process memory (bytes)

@@ -95,3 +95,32 @@ sys_uptime(void)
   release(&tickslock);
   return xticks;
 }
+
+#ifdef SNU
+uint64
+sys_nice(void)
+{
+  // PA4: Fill here!
+
+
+
+
+
+
+
+
+
+
+  return -1;
+}
+
+uint64
+sys_getticks(void)
+{
+  int pid;
+
+  if(argint(0, &pid) < 0)
+    return -1;
+  return getticks(pid);
+}
+#endif
