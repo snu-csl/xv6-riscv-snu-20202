@@ -51,8 +51,10 @@ exec(char *path, char **argv)
       goto bad;
     if((sz = uvmalloc(pagetable, sz, ph.vaddr + ph.memsz)) == 0)
       goto bad;
+#ifndef SNU
     if(ph.vaddr % PGSIZE != 0)
       goto bad;
+#endif
     if(loadseg(pagetable, ph.vaddr, ip, ph.off, ph.filesz) < 0)
       goto bad;
   }
@@ -134,11 +136,17 @@ loadseg(pagetable_t pagetable, uint64 va, struct inode *ip, uint offset, uint sz
   uint i, n;
   uint64 pa;
 
+#ifndef SNU
   if((va % PGSIZE) != 0)
     panic("loadseg: va must be page aligned");
+#endif
 
   for(i = 0; i < sz; i += PGSIZE){
     pa = walkaddr(pagetable, va + i);
+#ifdef SNU
+    if ((va % PGSIZE) != 0)
+      pa += (va & (PGSIZE - 1));
+#endif
     if(pa == 0)
       panic("loadseg: address should exist");
     if(sz - i < PGSIZE)
