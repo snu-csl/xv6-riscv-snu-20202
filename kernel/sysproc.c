@@ -95,3 +95,11 @@ sys_uptime(void)
   release(&tickslock);
   return xticks;
 }
+
+#ifdef SNU
+uint64
+sys_getfreemem(void)
+{
+  return freemem;
+}
+#endif

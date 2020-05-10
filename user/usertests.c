@@ -2170,7 +2170,10 @@ main(int argc, char *argv[])
     {dirfile, "dirfile"},
     {iref, "iref"},
     {forktest, "forktest"},
+#ifndef SNU
+    // Excluded in PA5 because it's too slow
     {bigdir, "bigdir"}, // slow
+#endif
     { 0, 0},
   };
     

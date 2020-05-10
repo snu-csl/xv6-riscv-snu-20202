@@ -178,6 +178,11 @@ proc_freepagetable(pagetable_t pagetable, uint64 sz)
   uvmunmap(pagetable, TRAPFRAME, PGSIZE, 0);
   if(sz > 0)
     uvmfree(pagetable, sz);
+#ifdef SNU
+  // BUG: pagetables are not released when p->sz is zero
+  else
+    freewalk(pagetable);
+#endif
 }
 
 // a user program that calls exec("/init")
@@ -670,4 +675,7 @@ procdump(void)
     printf("%d %s %s", p->pid, state, p->name);
     printf("\n");
   }
+#ifdef SNU
+  printf("freemem = %d (pages)\n", freemem);
+#endif
 }

@@ -23,6 +23,10 @@ int getpid(void);
 char* sbrk(int);
 int sleep(int);
 int uptime(void);
+#ifdef SNU
+// PA5
+int getfreemem(void);
+#endif
 
 // ulib.c
 int stat(const char*, struct stat*);

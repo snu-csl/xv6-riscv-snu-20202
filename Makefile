@@ -1,7 +1,7 @@
 # SNU ----------------------------------------------------
 # Please specify the PA number and your student ID:
-PANUM =
-STUDENTID =
+PANUM = PA5
+STUDENTID =x
 
 ifndef PANUM
 $(error Please set PANUM in Makefile)
@@ -165,7 +165,8 @@ QEMUGDB = $(shell if $(QEMU) -help | grep -q '^-gdb'; \
 	then echo "-gdb tcp::$(GDBPORT)"; \
 	else echo "-s -p $(GDBPORT)"; fi)
 ifndef CPUS
-CPUS := 3
+# PA5
+CPUS := 1
 endif
 
 QEMUEXTRA = -drive file=fs1.img,if=none,format=raw,id=x1 -device virtio-blk-device,drive=x1,bus=virtio-mmio-bus.1

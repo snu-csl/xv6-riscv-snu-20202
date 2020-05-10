@@ -9,6 +9,10 @@
 #include "riscv.h"
 #include "defs.h"
 
+#ifdef SNU
+uint64 freemem = 0;
+#endif
+
 void freerange(void *pa_start, void *pa_end);
 
 extern char end[]; // first address after kernel.
@@ -59,6 +63,9 @@ kfree(void *pa)
   acquire(&kmem.lock);
   r->next = kmem.freelist;
   kmem.freelist = r;
+#ifdef SNU
+  freemem++;
+#endif
   release(&kmem.lock);
 }
 
@@ -73,7 +80,14 @@ kalloc(void)
   acquire(&kmem.lock);
   r = kmem.freelist;
   if(r)
+#ifdef SNU
+  {
     kmem.freelist = r->next;
+    freemem--;
+  }
+#else
+    kmem.freelist = r->next;
+#endif
   release(&kmem.lock);
 
   if(r)
