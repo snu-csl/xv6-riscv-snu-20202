@@ -450,3 +450,19 @@ copyinstr(pagetable_t pagetable, char *dst, uint64 srcva, uint64 max)
     return -1;
   }
 }
+
+#ifdef SNU
+uint64
+v2p(pagetable_t pagetable, uint64 va)
+{
+  uint64 pa;
+  pte_t *pte;
+
+  if((pte = walk(pagetable, va, 0)) == 0)
+    return -2;      /* pte not found */
+  if((*pte & PTE_V) == 0)
+    return -3;      /* not valid */
+  pa = PTE2PA(*pte);
+  return pa;  
+}
+#endif

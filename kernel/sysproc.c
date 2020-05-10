@@ -102,4 +102,15 @@ sys_getfreemem(void)
 {
   return freemem;
 }
+
+uint64
+sys_v2p(void)
+{
+  struct proc *p = myproc();
+  int va;
+
+  if(argint(0, &va) < 0)
+    return -1;  // invalid argument
+  return v2p(p->pagetable, PGROUNDDOWN((uint64) va));
+}
 #endif

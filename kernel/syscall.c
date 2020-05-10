@@ -106,6 +106,7 @@ extern uint64 sys_write(void);
 extern uint64 sys_uptime(void);
 #ifdef SNU
 extern uint64 sys_getfreemem(void);
+extern uint64 sys_v2p(void);
 #endif
 
 static uint64 (*syscalls[])(void) = {
@@ -132,6 +133,7 @@ static uint64 (*syscalls[])(void) = {
 [SYS_close]   sys_close,
 #ifdef SNU
 [SYS_getfreemem] sys_getfreemem,
+[SYS_v2p]     sys_v2p,
 #endif
 };
 

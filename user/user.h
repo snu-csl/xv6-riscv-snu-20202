@@ -26,6 +26,7 @@ int uptime(void);
 #ifdef SNU
 // PA5
 int getfreemem(void);
+uint64 v2p(uint64);
 #endif
 
 // ulib.c

@@ -22,3 +22,4 @@
 #define SYS_close  21
 // PA5
 #define SYS_getfreemem  22
+#define SYS_v2p    23

@@ -38,3 +38,4 @@ entry("sleep");
 entry("uptime");
 # PA5
 entry("getfreemem");
+entry("v2p");
