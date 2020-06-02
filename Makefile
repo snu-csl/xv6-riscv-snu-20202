@@ -200,7 +200,10 @@ qemu-verbose: $K/kernel fs.img
 	echo "$(QEMU) $(QEMUOPTS)"
 	$(QEMU) $(QEMUOPTS)
 
-test: $K/kernel fs.img run-test.py
+out:
+	@mkdir $@
+
+test: run-test.py out $K/kernel fs.img
 	@./run-test.py
 #---------------------------------------------------------
 

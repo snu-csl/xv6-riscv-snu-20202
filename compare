@@ -1,0 +1,26 @@
+#!/bin/bash
+#---------------------------------------------------------------------
+#
+#  4190.307: Operating Systems (Spring 2020)
+#
+#  PA#6: Utility script for test result compare
+#
+#  June 2, 2020
+#
+#  Yeon-Gyu Jeong
+#  Systems Software and Architecture Laboratory
+#  Department of Computer Science and Engineering
+#  Seoul National University
+#
+#---------------------------------------------------------------------
+
+readonly NUM_TEST=10
+
+if [ "${1}" == "" ] || [ ${1} -lt 0 ] || [ ${1} -ge ${NUM_TEST} ]; then
+  echo "Invalid argument."
+  echo "  Usage: ${0} [test_number]"
+  echo "  [test_number] must be in range [0, ${NUM_TEST})"
+  exit 1
+else
+  diff --side-by-side "out/kthtest${1}.out" "ans/kthtest${1}.ans"
+fi
