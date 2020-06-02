@@ -1,0 +1,58 @@
+qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 3G -smp 1 -nographic -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
+
+xv6 kernel is booting
+
+init: starting sh
+$ kthtest 6
+running test_donate_simple
+>>> kthmain(50): starts
+>>> kthmain(99): Acquiring sleeplock sl
+>>> kthmain(99): Acquired sleeplock sl
+>>> kthmain(99): Creating kthread A
+>>> A(70): starts
+>>> A(70): Acquiring sleeplock sl
+>>> kthmain(70): This kthread should have priority 70
+>>> kthmain(70): Creating kthread B
+>>> B(69): starts
+>>> B(69): Acquiring sleeplock sl
+>>> kthmain(69): This kthread should have priority 69
+>>> kthmain(69): Creating kthread C
+>>> C(68): starts
+>>> C(68): Acquiring sleeplock sl
+>>> kthmain(68): This kthread should have priority 68
+>>> kthmain(68): Creating kthread D
+>>> D(67): starts
+>>> D(67): Acquiring sleeplock sl
+>>> kthmain(67): This kthread should have priority 67
+>>> kthmain(67): Creating kthread E
+>>> E(66): starts
+>>> E(66): Acquiring sleeplock sl
+>>> kthmain(66): This kthread should have priority 66
+>>> kthmain(66): Releasing sleeplock sl
+>>> E(66): Acquired sleeplock sl
+>>> E(66): Releasing sleeplock sl
+>>> E(66): Released sleeplock sl
+>>> E(66): ends
+>>> D(67): Acquired sleeplock sl
+>>> D(67): Releasing sleeplock sl
+>>> D(67): Released sleeplock sl
+>>> D(67): ends
+>>> C(68): Acquired sleeplock sl
+>>> C(68): Releasing sleeplock sl
+>>> C(68): Released sleeplock sl
+>>> C(68): ends
+>>> B(69): Acquired sleeplock sl
+>>> B(69): Releasing sleeplock sl
+>>> B(69): Released sleeplock sl
+>>> B(69): ends
+>>> A(70): Acquired sleeplock sl
+>>> A(70): Releasing sleeplock sl
+>>> A(70): Released sleeplock sl
+>>> A(70): ends
+>>> kthmain(99): Released sleeplock sl
+>>> kthmain(99): Kthreads E, D, C, B, and A must already have finished, in that order
+>>> kthmain(99): ends
+$ QEMU: Terminated
+
+
+

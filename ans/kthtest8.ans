@@ -1,0 +1,44 @@
+qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 3G -smp 1 -nographic -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
+
+xv6 kernel is booting
+
+init: starting sh
+$ kthtest 8
+running test_donate_multiple2
+>>> kthmain(50): starts
+>>> kthmain(50): Acquiring sleeplock a
+>>> kthmain(50): Acquired sleeplock a
+>>> kthmain(50): Acquiring sleeplock b
+>>> kthmain(50): Acquired sleeplock b
+>>> kthmain(50): Creating kthread A
+>>> A(47): starts
+>>> A(47): Acquiring sleeplock a
+>>> kthmain(47): This kthread should have priority 47
+>>> kthmain(47): Creating kthread C
+>>> kthmain(47): This kthread should have priority 47
+>>> kthmain(47): Creating kthread B
+>>> B(45): starts
+>>> B(45): Acquiring sleeplock b
+>>> kthmain(45): This kthread should have priority 45
+>>> kthmain(45): Releasing sleeplock a
+>>> kthmain(45): Released sleeplock a
+>>> kthmain(45): This kthread should have priority 45
+>>> kthmain(45): Releasing sleeplock b
+>>> B(45): Acquired sleeplock b
+>>> B(45): Releasing sleeplock b
+>>> B(45): Released sleeplock b
+>>> B(45): ends
+>>> A(47): Acquired sleeplock a
+>>> A(47): Releasing sleeplock a
+>>> A(47): Released sleeplock a
+>>> A(47): ends
+>>> C(49): starts
+>>> C(49): ends
+>>> kthmain(50): Released sleeplock b
+>>> kthmain(50): This kthread should have priority 50
+>>> kthmain(50): Kthreads B, A, and C should have just finished, in that order
+>>> kthmain(50): ends
+$ QEMU: Terminated
+
+
+

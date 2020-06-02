@@ -1,0 +1,44 @@
+qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 3G -smp 1 -nographic -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
+
+xv6 kernel is booting
+
+init: starting sh
+$ kthtest 9
+running test_donate_nest
+>>> kthmain(50): starts
+>>> kthmain(50): Acquiring sleeplock a
+>>> kthmain(50): Acquired sleeplock a
+>>> kthmain(50): Creating kthread M
+>>> M(40): starts
+>>> M(40): Acquiring sleeplock b
+>>> M(40): Acquired sleeplock b
+>>> M(40): This kthread should have priority 40
+>>> M(40): Acquiring sleeplock a
+>>> kthmain(40): This kthread should have priority 40
+>>> kthmain(40): Creating kthread H
+>>> H(30): starts
+>>> H(30): Acquiring sleeplock b
+>>> kthmain(30): This kthread should have priority 30
+>>> kthmain(30): Releasing sleeplock a
+>>> M(30): Acquired sleeplock a
+>>> M(30): This kthread should have priority 30
+>>> M(30): Releasing sleeplock a
+>>> M(30): Released sleeplock a
+>>> M(30): This kthread should have priority 30
+>>> M(30): Releasing sleeplock b
+>>> H(30): Acquired sleeplock b
+>>> H(30): This kthread should have priority 30
+>>> H(30): Releasing sleeplock b
+>>> H(30): Released sleeplock b
+>>> H(30): This kthread should have priority 30
+>>> H(30): ends
+>>> M(40): Released sleeplock b
+>>> M(40): This kthread should have priority 40
+>>> M(40): ends
+>>> kthmain(50): Released sleeplock a
+>>> kthmain(50): This kthread should have priority 50
+>>> kthmain(50): ends
+$ QEMU: Terminated
+
+
+

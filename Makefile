@@ -1,6 +1,6 @@
 # SNU ----------------------------------------------------
 # Please specify the PA number and your student ID:
-PANUM =
+PANUM = PA6
 STUDENTID =
 
 ifndef PANUM
@@ -41,9 +41,12 @@ OBJS = \
   $K/pipe.o \
   $K/exec.o \
   $K/sysfile.o \
+  $K/kthread.o \
+  $K/kthtest.o \
   $K/kernelvec.o \
   $K/plic.o \
   $K/virtio_disk.o
+
 
 # riscv64-unknown-elf- or riscv64-linux-gnu-
 # perhaps in /opt/riscv/bin
@@ -144,6 +147,7 @@ UPROGS=\
 	$U/_usertests\
 	$U/_wc\
 	$U/_zombie\
+	$U/_kthtest\
 
 fs.img: mkfs/mkfs README $(UPROGS)
 	mkfs/mkfs fs.img README $(UPROGS)
@@ -165,7 +169,7 @@ QEMUGDB = $(shell if $(QEMU) -help | grep -q '^-gdb'; \
 	then echo "-gdb tcp::$(GDBPORT)"; \
 	else echo "-s -p $(GDBPORT)"; fi)
 ifndef CPUS
-CPUS := 3
+CPUS := 1
 endif
 
 QEMUEXTRA = -drive file=fs1.img,if=none,format=raw,id=x1 -device virtio-blk-device,drive=x1,bus=virtio-mmio-bus.1
@@ -184,13 +188,20 @@ qemu-gdb: $K/kernel .gdbinit fs.img
 
 # SNU ----------------------------------------------------
 TARBALL = ../xv6-$(_PANUM)-$(_STUDENTID).tar.gz
-FILES = ./Makefile ./$K ./$U ./mkfs
+FILES = ./Makefile ./$K ./$U ./mkfs ./README ./ans ./out ./run-test.py
 
 submit:
 	@make clean
 	@rm -f $(TARBALL)
 	@tar cvzf $(TARBALL) $(FILES)
 	@echo "Please submit $(TARBALL) file"
+
+qemu-verbose: $K/kernel fs.img
+	echo "$(QEMU) $(QEMUOPTS)"
+	$(QEMU) $(QEMUOPTS)
+
+test: $K/kernel fs.img run-test.py
+	@./run-test.py
 #---------------------------------------------------------
 
 .PHONY: dist-test dist

@@ -95,3 +95,14 @@ sys_uptime(void)
   release(&tickslock);
   return xticks;
 }
+
+#ifdef SNU
+uint64 sys_kthtest(void)
+{
+  int n;
+
+  if(argint(0, &n) < 0)
+    return -1;
+  return kthtest(n);
+}
+#endif

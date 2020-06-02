@@ -1,0 +1,37 @@
+qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 3G -smp 1 -nographic -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
+
+xv6 kernel is booting
+
+init: starting sh
+$ kthtest 3
+running test_rr
+>>> kthmain(50): starts
+>>> kthmain(50): Creating kthread A
+>>> kthmain(50): Creating kthread B
+>>> kthmain(50): Creating kthread C
+>>> kthmain(50): ends
+>>> A(55): starts
+>>> A(55): iteration 0
+>>> B(55): starts
+>>> B(55): iteration 0
+>>> C(55): starts
+>>> C(55): iteration 0
+>>> A(55): iteration 1
+>>> B(55): iteration 1
+>>> C(55): iteration 1
+>>> A(55): iteration 2
+>>> B(55): iteration 2
+>>> C(55): iteration 2
+>>> A(55): iteration 3
+>>> B(55): iteration 3
+>>> C(55): iteration 3
+>>> A(55): iteration 4
+>>> B(55): iteration 4
+>>> C(55): iteration 4
+>>> A(55): ends
+>>> B(55): ends
+>>> C(55): ends
+$ QEMU: Terminated
+
+
+

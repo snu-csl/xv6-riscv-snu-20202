@@ -1,0 +1,25 @@
+qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 3G -smp 1 -nographic -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
+
+xv6 kernel is booting
+
+init: starting sh
+$ kthtest 2
+running test_create
+>>> kthmain(50): starts
+>>> kthmain(50): Creating kthread A
+>>> A(47): starts
+>>> A(47): I should be the first
+>>> A(47): ends
+>>> kthmain(50): Creating kthread B
+>>> B(48): starts
+>>> B(48): I should be the second
+>>> B(48): ends
+>>> kthmain(50): Creating kthread C
+>>> C(49): starts
+>>> C(49): I should be the third
+>>> C(49): ends
+>>> kthmain(50): ends
+$ QEMU: Terminated
+
+
+

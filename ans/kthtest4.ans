@@ -1,0 +1,19 @@
+qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 3G -smp 1 -nographic -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
+
+xv6 kernel is booting
+
+init: starting sh
+$ kthtest 4
+running test_lower
+>>> kthmain(50): starts
+>>> kthmain(50): Creating kthread H
+>>> H(49): starts
+>>> H(49): Now lowering my priority
+>>> kthmain(50): Kthread H have just lowered its priority
+>>> H(51): ends
+>>> kthmain(52): Kthread H should have just exited
+>>> kthmain(52): ends
+$ QEMU: Terminated
+
+
+

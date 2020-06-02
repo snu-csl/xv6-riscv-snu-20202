@@ -182,5 +182,19 @@ void            virtio_disk_init(void);
 void            virtio_disk_rw(struct buf *, int);
 void            virtio_disk_intr();
 
+#ifdef SNU
+// kthread.c
+#define USER_MAX_PRIO   139
+#define USER_DEF_PRIO   120       // default user process priority
+#define KERN_DEF_PRIO   50        // default kernel thread priority
+
+int             kthread_create(const char *, int, void (*)(void *), void *);
+void            kthread_exit(void);
+void            kthread_yield(void);
+void            kthread_set_prio(int);
+int             kthread_get_prio(void);
+int             kthtest(int);
+#endif
+
 // number of elements in fixed-size array
 #define NELEM(x) (sizeof(x)/sizeof((x)[0]))

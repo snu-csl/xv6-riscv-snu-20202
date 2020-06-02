@@ -1,0 +1,35 @@
+qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 3G -smp 1 -nographic -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
+
+xv6 kernel is booting
+
+init: starting sh
+$ kthtest 5
+running test_donate
+>>> kthmain(50): starts
+>>> kthmain(50): Acquiring sleeplock s
+>>> kthmain(50): Acquired sleeplock s
+>>> kthmain(50): Creating kthread A
+>>> A(49): starts
+>>> A(49): Acquiring sleeplock s
+>>> kthmain(49): This kthread should have priority 49
+>>> kthmain(49): Creating kthread B
+>>> B(48): starts
+>>> B(48): Acquiring sleeplock s
+>>> kthmain(48): This kthread should have priority 48
+>>> kthmain(48): Releasing sleeplock s
+>>> B(48): Acquired sleeplock s
+>>> B(48): Releasing sleeplock s
+>>> B(48): Released sleeplock s
+>>> B(48): ends
+>>> A(49): Acquired sleeplock s
+>>> A(49): Releasing sleeplock s
+>>> A(49): Released sleeplock s
+>>> A(49): ends
+>>> kthmain(50): Released sleeplock s
+>>> kthmain(50): This kthread should have priority 50
+>>> kthmain(50): Kthreads B and A must already have finished, in that order
+>>> kthmain(50): ends
+$ QEMU: Terminated
+
+
+
